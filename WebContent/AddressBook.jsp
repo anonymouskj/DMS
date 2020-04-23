@@ -49,6 +49,7 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 		<tr>
 			<th>Contact Name</th>
 			<th>Contact Id</th>
+			<!-- kuchbhi -->
 		</tr>
 <%		
 			while(z){
