@@ -19,7 +19,7 @@
 		      <li><a href="outbox.jsp" >outbox</a></li>
 		    </ul>
 		  </li>
-		  <li><a href="#">My Account</a>
+		 <li><a href="#">My Account</a>
 		  <%
 		  if(uid.equals("admin")){
 		  %>
@@ -27,6 +27,7 @@
 		      <li><a  href="users.jsp" >manage users</a></li>
 		      <li><a href="documents.jsp">manage documents</a></li>
 		      <li><a href="report.jsp" >generate report</a></li>
+		       <li><a href="Approve.jsp" >Approve documents</a></li>
 		    </ul>
 		  <%}
 		  else{ %>
@@ -45,7 +46,10 @@
 		  <li><a href="AddressBook.jsp" >Address Book</a></li>
 		    <li><a href="help.jsp" >Help</a></li>
 		  <li><a href="logout.jsp" >Logout</a></li>
-		</ul>
+		  
+		  
+	</ul>
+		
 		
 		<script type="text/javascript">
 		<!--

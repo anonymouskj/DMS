@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Share</title>
 </head>
 <body>
 <jsp:include page="header.jsp"></jsp:include>
@@ -19,6 +19,8 @@ Statement st1=con.createStatement();
 Statement st2=con.createStatement();
 String uid=(String)session.getAttribute("userid");
 String sharedto=request.getParameter("share");
+String DocType=(String)session.getAttribute("Doctype");
+System.out.println("share.jsp"+DocType);
 	if(sharedto!=null){
 	Date dt=new Date();
 	SimpleDateFormat sdt=new SimpleDateFormat("yyyy-MM-dd");
@@ -30,14 +32,14 @@ String sharedto=request.getParameter("share");
 			ResultSet rs=st1.executeQuery("select * from public.documentload where docid='"+s+"'");
 			rs.next();
 			
-			st2.executeUpdate("insert into public.documentshared values('"+s+"','"+sharedto +"','"+uid+"','"+ sdt.format(dt)+"','shared')");	
+			st2.executeUpdate("insert into public.documentshared values('"+s+"','"+sharedto +"','"+uid+"','"+ sdt.format(dt)+"','shared','"+DocType+"')");	
 		}
 		for(int i=0;i<vlength;i++)
 		{	String s=(String)session.getAttribute("v"+i);
 			ResultSet rs=st1.executeQuery("select * from public.documentshared where docid='"+s+"' and sharedto='"+uid+"'");
 			rs.next();
 			
-			st2.executeUpdate("insert into documentshared values(insert into public.documentshared values('"+s+"','"+sharedto +"','"+uid+"','"+ sdt.format(dt)+"','shared'))");
+			st2.executeUpdate("insert into documentshared values(insert into public.documentshared values('"+s+"','"+sharedto +"','"+uid+"','"+ sdt.format(dt)+"','shared','"+DocType+"'))");
 		}
 	
 %>

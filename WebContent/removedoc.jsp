@@ -16,6 +16,7 @@
 Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS","postgres","postgress");
 	Statement st=con.createStatement();
 	String uid=(String)session.getAttribute("userid");
+	String Doctype=(String)session.getAttribute("Doctype");
 	String s[]=request.getParameterValues("mine");
 	String v[]=request.getParameterValues("share");
 	String ds=request.getParameter("s");

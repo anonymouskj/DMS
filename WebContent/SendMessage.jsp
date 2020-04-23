@@ -15,8 +15,9 @@
 	<script type="text/javascript">
 		function val(){
 				var sub=document.ss.sub.value;
-				if(sub=="")
+				if(sub==""){
 					return false;
+				}
 				return true;
 		}
 	</script>
@@ -50,13 +51,14 @@
     }
  %>
 	</select>	
-		<b>Subject:</b><input type="text" name="sub" size="50"></td>
+		<b>Subject:</b><input type="text" name="sub" size="50" ></td>
 	</tr>
-	<tr>
-		<td><textarea rows="10" cols="70" name="msg"></textarea>
+	<tr>	
+		<td><textarea rows="10" cols="70" name="msg" required></textarea>
 		<input type="submit" value="Send"></td>
 	</tr>
 </table>
 </form>
+
 </body>
 </html>

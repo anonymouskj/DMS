@@ -16,17 +16,19 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 	Statement st2=con.createStatement();
 	String uid=(String)session.getAttribute("userid");
 	String appBy=request.getParameter("approvalby");
+	String DocType=(String)session.getAttribute("Doctype");
+	System.out.println("approval"+DocType);
 	if(appBy!=null){
 		int slength=Integer.parseInt(session.getAttribute("slength").toString());
 		int vlength=Integer.parseInt(session.getAttribute("vlength").toString());
 		try{
 			for(int i=0;i<slength;i++)
 			{	String s=(String)session.getAttribute("s"+i);
-				st2.executeUpdate("insert into public.approval values('documentload','"+s+"','"+uid+"','"+appBy+"','yetto')");	
+				st2.executeUpdate("insert into public.approval values('documentload','"+s+"','"+uid+"','"+appBy+"','yetto','"+DocType+"')");	
 			}
 			for(int i=0;i<vlength;i++)
 			{	String s=(String)session.getAttribute("v"+i);
-				st2.executeUpdate("insert into public.approval values('documentshared','"+s+"','"+uid+"','"+appBy+"','yetto')");
+				st2.executeUpdate("insert into public.approval values('documentshared','"+s+"','"+uid+"','"+appBy+"','yetto','"+DocType+"')");
 			}
 %>
 		<jsp:forward page="DownloadView.jsp"></jsp:forward>

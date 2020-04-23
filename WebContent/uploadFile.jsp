@@ -37,7 +37,7 @@
 		saveFile = saveFile.substring(0, saveFile.indexOf("\n"));
 		saveFile = saveFile.substring(saveFile.lastIndexOf("\\") + 1,saveFile.indexOf("\""));
 		 saveFile = saveFile.replaceAll("\\s", "");
-		out.println(saveFile);
+		System.out.println(saveFile);
 		int lastIndex = contentType.lastIndexOf("=");
 		String boundary = contentType.substring(lastIndex + 1,contentType.length());
 		int pos;
@@ -56,6 +56,9 @@
 		String docname=(String)session.getAttribute("dn");
 		int  docid=Integer.parseInt(session.getAttribute("docid").toString());
 		String version=(String)session.getAttribute("ver");
+		String Doctype=(String)session.getAttribute("Doctype");
+		//System.out.println("doctype"+Doctype);
+		//System.out.println("version"+version);
 		String des=(String)session.getAttribute("des");
 		saveFile=author+docname+version+saveFile;
 		//Class.forName("com.mysql.jdbc.Driver");
@@ -87,7 +90,7 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 				fileOut.write(dataBytes, startPos, (endPos - startPos));
 				fileOut.flush();
 				fileOut.close();
-				st1.executeUpdate("insert into public.documentload values('"+docname+"','"+des+"','"+docid+"','"+version+"','"+author+"','"+formDataLength+"','"+f.format(s1) +"','created','"+saveFile+"')");	
+				st1.executeUpdate("insert into public.documentload values('"+docname+"','"+des+"','"+docid+"','"+version+"','"+author+"','"+formDataLength+"','"+f.format(s1) +"','created','"+saveFile+"','"+Doctype+"')");	
 				ResultSet rs1=st2.executeQuery("select docid from public.documentload where docname='"+docname+"' and version='"+version+"' and author='"+author+"'");
 				rs1.next();
 				String id=rs1.getString("docid");

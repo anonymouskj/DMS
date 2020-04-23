@@ -1,4 +1,4 @@
-<%@ page import="java.util.*" %>
+	<%@ page import="java.util.*" %>
 <%@ page import="java.util.Date" %>
 <%@ page import="java.sql.*" %>
 <%@ page import="java.text.*" %>
@@ -10,6 +10,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
 <script type="text/javascript">
 	function check(){
 		if(window.XMLHttpRequest){
@@ -26,7 +27,8 @@
 		dns=document.forms[1].dn.value;
 		vers=document.forms[1].ver.value;
 		des=document.forms[1].des.value;
-		request.open("get","sess.jsp?dn="+dns+"&ver="+vers+"&des="+des,true);
+		Doctype=document.forms[1].Doctype.value;
+		request.open("get","sess.jsp?dn="+dns+"&ver="+vers+"&des="+des+"&Doctype="+Doctype,true);
 		request.send(null);
 	}
 	function handleResponse(request){
@@ -37,6 +39,8 @@ function valids(){
 
 	dns=document.form1.dn.value;
 	vers=document.form1.ver.value;
+	doctype=document.form1.Doctype.value;
+	//console.log("broadcast"+doctype);
 	val=true;
 	if(dns==""){
 		f1.innerText="document name required";
@@ -59,6 +63,15 @@ function valids(){
 		else
 			 f2.innerText="";
 	}
+	
+	if(doctype== "5"){
+		f7.innerText="Select the DocType";
+		val=false ;
+	}
+	else{
+		f7.innerText="";
+}
+	
 	if(val==true) sendRequest();
 	return val;
 }
@@ -98,25 +111,38 @@ session.setAttribute("docid",String.valueOf(s));
 		<td>
 			<form name="form1" >
 			  <table width="60%" border="0" cellspacing="1" cellpadding="1" align="center" >
+			  
 			    <tr>
-			    	<td>author:</td>
-			    	<td><input type="text" name="author" value="<%=session.getAttribute("userid") %>" disabled="disabled" ></td>
+			    	<td><label for="Author">Author:</label></td>
+			    	<td><input type="text" name="Author" value="<%=session.getAttribute("userid") %>" disabled="disabled" ></td>
 			    </tr>
 			    <tr>
-			    	<td>document id:</td>
+			    	<td>Document id:</td>
 			    	<td><input type="text" name="docid" disabled="disabled" value="<%=session.getAttribute("docid")%>"></td>
 			    </tr>
 			    <tr>
-			    	<td>document name</td>
+			    	<td>Document name</td>
 			    	<td><input type="text" name="dn"></td>
 			    	<td><p id="f1"></p></td>
 			    </tr>
 			     <tr>
-			    	<td>description</td>
+			    	<td>Document Type</td>
+			    	<td>
+			    	<select id="Doctype" name="Doctype">
+			    	      <option value="5">Select:</option>
+                         <option value="Circular">Circular</option>
+                         <option value="LearningFile">LearningFile</option>
+                         <option value="Letter">Letter</option>
+                    </select>
+                    </td>
+			    	<td><p id="f7"></p></td>
+			    </tr>
+			     <tr>
+			    	<td>Description</td>
 			    	<td><textarea name="des" rows="3" cols="20"></textarea></td>
 			      </tr>
 			    <tr>
-			    	<td>version:</td>
+			    	<td>Version:</td>
 			    	<td><input type="text" name="ver" onblur="valids()" ></td>
 			    	<td><p id="f2"></p></td>
 			    </tr>

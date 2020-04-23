@@ -13,7 +13,7 @@
 	String uid=(String)session.getAttribute("userid");
 	if(uid==null){
 %>
-		<jsp:forward page="index.html"></jsp:forward>
+		 <jsp:forward page="index.html"></jsp:forward>
 <%
 	}
 	else{

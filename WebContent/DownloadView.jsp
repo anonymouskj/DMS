@@ -61,6 +61,7 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 				<th>Version</th>
 				<th>Size in bytes</th>
 				<th>Status</th>
+				<th>DocType</th>
 			</tr>
 			<%	while(z1){ 
 				ResultSet rs2=st2.executeQuery("select status,approvalby from public.approval where docid='"+rs1.getString("docid")+"' ");
@@ -75,6 +76,7 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 				<td><%=rs1.getString("createdon")%></td>
 				<td><%=rs1.getString("version")%></td>
 				<td><%=rs1.getString("size")%></td>
+				
 				<td>
 					<%if(z2=rs2.next())
 						while(z2){
@@ -84,6 +86,7 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 						else out.print("none");
 					%> 
 				</td>
+				<td><%=rs1.getString("DocType")%></td>
 			</tr>
 			<% z1=rs1.next();	
 			}
@@ -116,6 +119,7 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 					<th>Version</th>
 					<th>Size in bytes</th>
 					<th>Status</th>
+					<th>DocType</th>
 				</tr>
 				<%
 					
@@ -143,10 +147,11 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 								else out.print("none");
 						%>
 				    </td>
+				    <td><%=rs5.getString("DocType")%></td>
 				</tr>
 				<% z3=rs2.next();}%>
 				<tr>
-					<td colspan="8"><input type="submit" value="Delete" name="s" >
+					<td colspan="8"><input type="submit" value="delete" name="s" >
 					&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="Share" name="s">
 					&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="Approval" name="s"></td>
 					
