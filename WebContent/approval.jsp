@@ -14,21 +14,28 @@
 	Class.forName("org.postgresql.Driver");
 Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS","postgres","postgress");
 	Statement st2=con.createStatement();
+	Statement st1=con.createStatement();
 	String uid=(String)session.getAttribute("userid");
 	String appBy=request.getParameter("approvalby");
-	String DocType=(String)session.getAttribute("Doctype");
-	System.out.println("approval"+DocType);
+	//String DocType=(String)session.getAttribute("docType");
+//	System.out.println("approval"+DocType);
 	if(appBy!=null){
 		int slength=Integer.parseInt(session.getAttribute("slength").toString());
 		int vlength=Integer.parseInt(session.getAttribute("vlength").toString());
 		try{
 			for(int i=0;i<slength;i++)
 			{	String s=(String)session.getAttribute("s"+i);
-				st2.executeUpdate("insert into public.approval values('documentload','"+s+"','"+uid+"','"+appBy+"','yetto','"+DocType+"')");	
+			ResultSet rs=st1.executeQuery("select * from public.documentload where docid='"+s+"'");
+			rs.next();
+			String Doctype=rs.getString(10);
+				st2.executeUpdate("insert into public.approval values('documentload','"+s+"','"+uid+"','"+appBy+"','Yet to','"+Doctype+"')");	
 			}
 			for(int i=0;i<vlength;i++)
 			{	String s=(String)session.getAttribute("v"+i);
-				st2.executeUpdate("insert into public.approval values('documentshared','"+s+"','"+uid+"','"+appBy+"','yetto','"+DocType+"')");
+			ResultSet rs=st1.executeQuery("select * from public.documentload where docid='"+s+"'");
+			rs.next();
+			String Doctype=rs.getString(10);
+				st2.executeUpdate("insert into public.approval values('documentshared','"+s+"','"+uid+"','"+appBy+"','Yet to','"+Doctype+"')");
 			}
 %>
 		<jsp:forward page="DownloadView.jsp"></jsp:forward>

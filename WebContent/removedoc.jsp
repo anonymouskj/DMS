@@ -8,6 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+
 <jsp:include page="header.jsp"></jsp:include>
 <%
 	//Class.forName("com.mysql.jdbc.Driver");
@@ -16,7 +17,7 @@
 Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS","postgres","postgress");
 	Statement st=con.createStatement();
 	String uid=(String)session.getAttribute("userid");
-	String Doctype=(String)session.getAttribute("Doctype");
+	//String Doctype=(String)session.getAttribute("docType");
 	String s[]=request.getParameterValues("mine");
 	String v[]=request.getParameterValues("share");
 	String ds=request.getParameter("s");
@@ -98,6 +99,7 @@ else{
 	 name=firstName+" "+lastName;
 	 if(!userid.equals(uid))
 	 { 
+		
 	 %>
 	 <option value=<%=userid%>><%=name%></option>
 <% 
