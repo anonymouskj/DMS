@@ -3,30 +3,50 @@
 <html>
 <head>
 	<script type="text/javascript">
+
+	/* function sendRequest(){
+			var request=check();
+			request.onreadystatechange=function(){handleResponse(request)};
+			//dns=document.forms[1].dn.value;
+			//vers=document.forms[1].ver.value;
+			//des=document.forms[1].des.value;
+			 Doctype = document.getElementById("docType").checked;
+			 System.out.println("sendrequest"+Doctype);
+			//Doctype=document.forms[1].Doctype.value;
+			request.open("get","New.jsp?docType="+Doctype,true);
+			request.send(null);
+		} */
+
 		function valids1(){
 			var len=document.form2.mine.length;
 			if(len>0)
 				for(i=0;i<len;i++){
-					if(document.form2.mine[i].checked)
-					  		return true;
+					if(document.form2.mine[i].checked){
+						//sendRequest();	
+						return true;
+					}
 				}
 			else
-				if(document.form2.mine.checked)
+				if(document.form2.mine.checked){
+					//sendRequest();
 					return true;
-		
+				}
 			return false;
 		}
 		function valids2(){
 			var len=document.form3.share.length;
 			if(len>0)
 				for(i=0;i<len;i++){
-					if(document.form3.share[i].checked)
-					  		return true;
+					if(document.form3.share[i].checked){
+						//sendRequest();	
+						return true;
+					}
 				}
 			else
-				if(document.form3.share.checked)
+				if(document.form3.share.checked){
+					//sendRequest();
 					return true;
-		
+				}
 			return false;
 		}
 	</script>
@@ -86,7 +106,7 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 						else out.print("none");
 					%> 
 				</td>
-				<td><%=rs1.getString("DocType")%></td>
+				<td><label id="docType" name="docType" ><%=rs1.getString("DocType")%></label></td>
 			</tr>
 			<% z1=rs1.next();	
 			}
@@ -147,7 +167,7 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 								else out.print("none");
 						%>
 				    </td>
-				    <td><%=rs5.getString("DocType")%></td>
+				    <td><label id="docType" name="docType"><%=rs5.getString("DocType")%></label></td>
 				</tr>
 				<% z3=rs2.next();}%>
 				<tr>

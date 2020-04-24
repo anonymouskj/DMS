@@ -19,8 +19,6 @@ Statement st1=con.createStatement();
 Statement st2=con.createStatement();
 String uid=(String)session.getAttribute("userid");
 String sharedto=request.getParameter("share");
-String DocType=(String)session.getAttribute("Doctype");
-System.out.println("share.jsp"+DocType);
 	if(sharedto!=null){
 	Date dt=new Date();
 	SimpleDateFormat sdt=new SimpleDateFormat("yyyy-MM-dd");
@@ -31,15 +29,17 @@ System.out.println("share.jsp"+DocType);
 		{	String s=(String)session.getAttribute("s"+i);
 			ResultSet rs=st1.executeQuery("select * from public.documentload where docid='"+s+"'");
 			rs.next();
-			
-			st2.executeUpdate("insert into public.documentshared values('"+s+"','"+sharedto +"','"+uid+"','"+ sdt.format(dt)+"','shared','"+DocType+"')");	
+			String Doctype=rs.getString(10);
+		// System.out.println("breaodud ey e"+Doctype);
+			st2.executeUpdate("insert into public.documentshared values('"+s+"','"+sharedto +"','"+uid+"','"+ sdt.format(dt)+"','shared','"+Doctype+"')");	
 		}
 		for(int i=0;i<vlength;i++)
 		{	String s=(String)session.getAttribute("v"+i);
 			ResultSet rs=st1.executeQuery("select * from public.documentshared where docid='"+s+"' and sharedto='"+uid+"'");
 			rs.next();
+			String Doctype=rs.getString(10);
 			
-			st2.executeUpdate("insert into documentshared values(insert into public.documentshared values('"+s+"','"+sharedto +"','"+uid+"','"+ sdt.format(dt)+"','shared','"+DocType+"'))");
+			st2.executeUpdate("insert into documentshared values(insert into public.documentshared values('"+s+"','"+sharedto +"','"+uid+"','"+ sdt.format(dt)+"','shared','"+Doctype+"')");
 		}
 	
 %>
