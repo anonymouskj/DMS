@@ -37,7 +37,7 @@
 		saveFile = saveFile.substring(0, saveFile.indexOf("\n"));
 		saveFile = saveFile.substring(saveFile.lastIndexOf("\\") + 1,saveFile.indexOf("\""));
 		 saveFile = saveFile.replaceAll("\\s", "");
-		System.out.println(saveFile);
+		out.println(saveFile);
 		int lastIndex = contentType.lastIndexOf("=");
 		String boundary = contentType.substring(lastIndex + 1,contentType.length());
 		int pos;
@@ -54,11 +54,8 @@
    	  
 		String author=(String)session.getAttribute("userid");
 		String docname=(String)session.getAttribute("dn");
-		int  docid=Integer.parseInt(session.getAttribute("docid").toString());
+		int docid=Integer.parseInt(session.getAttribute("docid").toString());
 		String version=(String)session.getAttribute("ver");
-		String Doctype=(String)session.getAttribute("Doctype");
-		//System.out.println("doctype"+Doctype);
-		//System.out.println("version"+version);
 		String des=(String)session.getAttribute("des");
 		saveFile=author+docname+version+saveFile;
 		//Class.forName("com.mysql.jdbc.Driver");
@@ -84,13 +81,60 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 		}
 				
 		// creating a new file with the same name and writing the content in new file
+		String filePath=null;
 			if(flag.equals("true")){
-				String filePath = "C:\\dms\\" + saveFile;
+				String os=System.getProperty("os.name");
+				System.out.println(os);
+				/* if(os.startsWith("Windows"))
+				{ */
+					File checkfile = new File("C:/dms");
+					boolean fileExists = checkfile.exists();
+					if(!fileExists)
+					{
+					System.out.println("Dir does not exist");
+					File createfile = new File("C:/dms");
+					boolean dirCreated = createfile.mkdir();
+					if(dirCreated)
+					{
+						System.out.println("Dir created");
+						
+					}
+					else
+					{
+						System.out.println("No Dir created");
+					}
+					}
+				
+					filePath = "C:/dms/" + saveFile;
+					
+				/*}
+				 else if(os.startsWith("Unix")){
+
+					File checkfile = new File("/dms");
+					boolean fileExists = checkfile.exists();
+					if(!fileExists)
+					{
+					System.out.println("Dir does not exist");
+					File createfile = new File("/dms");
+					boolean dirCreated = createfile.mkdir();
+					if(dirCreated)
+					{
+						System.out.println("Dir created");
+						
+					}
+					else
+					{
+						System.out.println("No Dir created");
+					}
+					}
+				
+					filePath = "/dms/" + saveFile;
+				} */
 				FileOutputStream fileOut = new FileOutputStream(filePath);
 				fileOut.write(dataBytes, startPos, (endPos - startPos));
 				fileOut.flush();
 				fileOut.close();
-				st1.executeUpdate("insert into public.documentload values('"+docname+"','"+des+"','"+docid+"','"+version+"','"+author+"','"+formDataLength+"','"+f.format(s1) +"','created','"+saveFile+"','"+Doctype+"')");	
+				st1.executeUpdate("insert into public.documentload values('"+docname+"','"+des+"','"+docid+"','"+version+"','"+author+"','"+formDataLength+"','"+f.format(s1) +"','created','"+saveFile+"')");	
 				ResultSet rs1=st2.executeQuery("select docid from public.documentload where docname='"+docname+"' and version='"+version+"' and author='"+author+"'");
 				rs1.next();
 				String id=rs1.getString("docid");
