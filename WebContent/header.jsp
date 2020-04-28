@@ -34,7 +34,10 @@
 			<%} %>
 		</div>
 	</div></div>
-<jsp:include page="menu.jsp"></jsp:include>
+	<div>
+	<jsp:include page="menu.jsp"></jsp:include>
+	</div>
+
 <br><br><br>
 <%} %>
 </body>

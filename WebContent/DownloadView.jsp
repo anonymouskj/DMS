@@ -56,17 +56,8 @@ body {font-family: Arial;}
  </div> 
   
 
-	<div id="Letter" class="tabcontent">
-	   <form name="paritionFrame" id="paritionFrame">	
-	    
-		</form>
-  </div>
-   <div id="LearningFile" class="tabcontent">
-    <form name="fpvc" id="fpvc">
-    
-    </form>
-  </div> 
-
+	
+  
 	
 	<%
 	//Class.forName("com.mysql.jdbc.Driver");
@@ -75,20 +66,19 @@ body {font-family: Arial;}
 Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS","postgres","postgress");
 	Statement st1=con.createStatement();
 	Statement st2=con.createStatement();
-	Statement st4=con.createStatement();
 	String uid=(String)session.getAttribute("userid");
 	ResultSet rs1=st1.executeQuery("select * from public.documentload where author='"+uid+"' and status='created' and doctype = 'Circular'");
 	boolean z1=rs1.next(),z2;
 	%>
 	<div id="Circular" class="tabcontent">
-	<table border="1" align="center">
-	<tr><td>
+	
+	
 		<%
 		 	
 		if(z1){ %>
-		<h2>Your Documents</h2>
+		<!-- <h2>Your Documents</h2> -->
 		<form  action="removedoc.jsp" onsubmit="return valids1()" name="form2">
-		<table title="YOUR DOCUMENTS" align="center" border="0">
+		<table  align="center" border="1">
 			<tr>
 				<th>Document Name</th>
 				<th>Author</th>
@@ -98,7 +88,7 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 				<th>Version</th>
 				<th>Size in bytes</th>
 				<th>Status</th>
-				<!-- <th>DocType</th> -->
+			    <th>View History</th>
 			</tr>
 			<%	
 			 
@@ -128,7 +118,7 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 						else out.print("none");
 					%> 
 				</td>
-				<%-- <td><label id="docType" name="docType" ><%=rs1.getString("doctype")%></label></td> --%>
+			  <td><button value="<%=rs1.getString("docid")%>">View</button></td>
 			</tr>
 			<% 
 			 
@@ -145,81 +135,151 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 			<%
 			}%>
 		</table>
-		</form>
-	</td></tr>
-	<tr><td>
-		 <form  action="removedoc.jsp" onsubmit="return valids2()" name="form3">
-			<%	ResultSet rs2=st1.executeQuery("select * from public.documentshared where sharedto='"+uid+"' and status!='deleted' and doctype = 'Circular'");
-				boolean z3=rs2.next();
-				if(z3){
-			%>	<h3 align="center">Documents shared to you</h3>
-			<table title="documents shared to you" border="0" align="center">
-				<tr>
-					<th>Document Name</th>
-					<th>Author</th>
-					<th>Description</th>
-					<th>Document id</th>
-					<th>Shared by</th>
-					<th>Shared on</th>
-					<th>Version</th>
-					<th>Size in bytes</th>
-					<th>Status</th>
-					<!-- <th>DocType</th> -->
-				</tr>
-				<%
-					
-					while(z3){ 
-						
-						ResultSet rs5=st4.executeQuery("select * from public.documentload where docid='"+rs2.getString("docid")+"'and doctype = 'Circular'");
-						rs5.next();
-						ResultSet rs3=st2.executeQuery("select status,approvalby from public.approval where docid='"+rs2.getString("docid")+"' ");
-						String Doc =rs5.getString("DocType");
-						  //System.out.println(Doc);
-						 // if(Doc.equals("Circular")){
+	
+</div> 
+  <div id="Letter" class="tabcontent">
+	  
+	 
+	  <%
+	  ResultSet rs3=st1.executeQuery("select * from public.documentload where author='"+uid+"' and status='created' and doctype = 'Letter'");
+		boolean z3=rs3.next(),z4;
+		if(z3){ %>
+		<!-- <h2>Your Documents</h2> -->
+		<form  action="removedoc.jsp" onsubmit="return valids1()" name="form2">
+		<table  align="center" border="1">
+			<tr>
+				<th>Document Name</th>
+				<th>Author</th>
+				<th>Description</th>
+				<th>Document id</th>
+				<th>Created on</th>
+				<th>Version</th>
+				<th>Size in bytes</th>
+				<th>Status</th>
+			    <th>View History</th>
+			</tr>
+			<%	
+			 
+			//System.out.println(Doc);
+			while(z3){ 
+				   
+				ResultSet rs4=st2.executeQuery("select status,approvalby from public.approval where docid='"+rs3.getString("docid")+"'");
+		
 				%>
-				<tr>
-					<td><input type="checkbox" name="share" value="<%=rs2.getString("docid")%>">
-					<a href="DownloadFile.jsp?path=C:/dms/<%=rs5.getString("filepath")%>"><%=rs5.getString("docname")%></a></td>
-					<td><%=rs5.getString("author")%></td>
-					<td><%=rs5.getString("description")%></td>
-					<td><%=rs2.getString("docid")%></td>
-					<td><%=rs2.getString("sharedby") %></td>
-					<td><%=rs2.getString("sharedat")%></td>
-					<td><%=rs5.getString("version")%></td>
-					<td><%=rs5.getString("size")%></td>
-					<td>
-						<% if(z2=rs3.next())
-								while(z2){
-								out.println( rs3.getString("status")+" by"+ rs3.getString("approvalby")); 
-								z2=rs3.next();
-								}
-								else out.print("none");
-						%>
-				    </td>
-				   <%--  <td><label id="docType" name="docType"><%=rs5.getString("doctype")%></label></td> --%>
-				</tr>
-				<% z3=rs2.next();}%>
-				<tr>
+			<tr>
+				<td><input type="checkbox" name="mine" value="<%=rs3.getString("docid")%>">
+			<a href="DownloadFile.jsp?path=C:/dms/<%=rs3.getString("filepath")%>"><%=rs3.getString("docname")%></a></td> 
+				
+                <td><%=rs3.getString("author")%></td>
+				<td><%=rs3.getString("description")%></td>
+				<td><%=rs3.getString("docid")%></td>
+				<td><%=rs3.getString("createdon")%></td>
+				<td><%=rs3.getString("version")%></td>
+				<td><%=rs3.getString("size")%></td>
+				
+				<td>
+					<%if(z4=rs4.next())
+						while(z4){
+						out.println(rs4.getString("status")+" by"+ rs4.getString("approvalby")); 
+						z4=rs4.next();
+						}
+						else out.print("none");
+					%> 
+				</td>
+			  <td><button align="center" value="<%=rs3.getString("docid")%>">View</button></td>
+			</tr>
+			<% 
+			 
+			 z3=rs3.next();	
+			}
+			%>
+			<tr>
 					<td colspan="8"><input type="submit" value="delete" name="s" >
-					&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="Share" name="s">
+					&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="Forward" name="s">
 					&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="Approval" name="s"></td>
 					
-				</tr>
-				<%
-				}%>
-			</table>
-			</form> --%>
-		</td></tr>
-	</table>
-	
-	 
+				</tr>	    
+	<%        
+			}%>
+		</table>
+		
+		</form>
+</div>
+
+  <div id="LearningFile" class="tabcontent">
+    
+	  <%
+	  ResultSet rs5=st1.executeQuery("select * from public.documentload where author='"+uid+"' and status='created' and doctype = 'LearningFile'");
+		boolean z5=rs5.next(),z6;
+		if(z5){ %>
+		<!-- <h2>Your Documents</h2> -->
+		<form  action="removedoc.jsp" onsubmit="return valids1()" name="form2">
+		<table  align="center" border="1">
+			<tr>
+				<th>Document Name</th>
+				<th>Author</th>
+				<th>Description</th>
+				<th>Document id</th>
+				<th>Created on</th>
+				<th>Version</th>
+				<th>Size in bytes</th>
+				<th>Status</th>
+			    <th>View History</th>
+			</tr>
+			<%	
+			 
+			//System.out.println(Doc);
+			while(z5){ 
+				   
+				ResultSet rs7=st2.executeQuery("select status,approvalby from public.approval where docid='"+rs5.getString("docid")+"'");
+		
+				%>
+			<tr>
+				<td><input type="checkbox" name="mine" value="<%=rs5.getString("docid")%>">
+			<a href="DownloadFile.jsp?path=C:/dms/<%=rs5.getString("filepath")%>"><%=rs5.getString("docname")%></a></td> 
+				
+                <td><%=rs5.getString("author")%></td>
+				<td><%=rs5.getString("description")%></td>
+				<td><%=rs5.getString("docid")%></td>
+				<td><%=rs5.getString("createdon")%></td>
+				<td><%=rs5.getString("version")%></td>
+				<td><%=rs5.getString("size")%></td>
+				
+				<td>
+					<%if(z6=rs7.next())
+						while(z6){
+						out.println(rs7.getString("status")+" by"+ rs7.getString("approvalby")); 
+						z6=rs7.next();
+						}
+						else out.print("none");
+					%> 
+				</td>
+			  <td><button align="center" value="<%=rs5.getString("docid")%>">View</button></td>
+			</tr>
+			<% 
+			 
+			 z5=rs5.next();	
+			}
+			%>
+			<tr>
+					<td colspan="8"><input type="submit" value="delete" name="s" >
+					&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="Forward" name="s">
+					</td>
+					
+				</tr>	    
+	<%        
+			}%>
+		</table>
+		
+		</form>
   </div> 
   
-  
 	<script type="text/javascript">
-	
+	 var btn;
 	function openCity(evt, cityName) {
 		  var i, tabcontent, tablinks;
+		   btn=evt.target.id;
+		   alert(btn);
 		  tabcontent = document.getElementsByClassName("tabcontent");
 		  for (i = 0; i < tabcontent.length; i++) {
 		    tabcontent[i].style.display = "none";
@@ -238,8 +298,7 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 				for(i=0;i<len;i++){
 					if(document.form2.mine[i].checked){
 						//sendRequest();	
-						return true;
-					}
+						return true;					}
 				}
 			else
 				if(document.form2.mine.checked){
