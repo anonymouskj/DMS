@@ -19,6 +19,7 @@ Statement st1=con.createStatement();
 Statement st2=con.createStatement();
 String uid=(String)session.getAttribute("userid");
 String sharedto=request.getParameter("share");
+String remarks=request.getParameter("remarks");
 	if(sharedto!=null){
 	Date dt=new Date();
 	SimpleDateFormat sdt=new SimpleDateFormat("yyyy-MM-dd");
@@ -31,7 +32,7 @@ String sharedto=request.getParameter("share");
 			rs.next();
 			String Doctype=rs.getString(10);
 		// System.out.println("breaodud ey e"+Doctype);
-			st2.executeUpdate("insert into public.documentshared values('"+s+"','"+sharedto +"','"+uid+"','"+ sdt.format(dt)+"','shared','"+Doctype+"')");	
+			st2.executeUpdate("insert into public.documentshared values('"+s+"','"+sharedto +"','"+uid+"','"+ sdt.format(dt)+"','shared','"+Doctype+"','"+remarks+"')");	
 		}
 		for(int i=0;i<vlength;i++)
 		{	String s=(String)session.getAttribute("v"+i);
@@ -39,10 +40,12 @@ String sharedto=request.getParameter("share");
 			rs.next();
 			String Doctype=rs.getString(10);
 			
-			st2.executeUpdate("insert into documentshared values(insert into public.documentshared values('"+s+"','"+sharedto +"','"+uid+"','"+ sdt.format(dt)+"','shared','"+Doctype+"')");
+			st2.executeUpdate("insert into documentshared values(insert into public.documentshared values('"+s+"','"+sharedto +"','"+uid+"','"+ sdt.format(dt)+"','shared','"+Doctype+"','"+remarks+"')");
 		}
+		  
+	  out.println("file shared");	
 	
-%>
+%>      
 		<jsp:forward page="DownloadView.jsp"></jsp:forward>
 <%		
 	}

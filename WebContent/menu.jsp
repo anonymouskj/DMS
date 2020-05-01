@@ -78,7 +78,7 @@ margin-top:-35px; /* aligns top of sub menu with top of list item */
 		      <li><a href="NewDownloadView.jsp" >Shared Documents</a></li>
 		    </ul>
 		  </li>
-			      <li><a href="Approve.jsp" >Approve documents</a></li>
+			      <!-- <li><a href="Approve.jsp" >Approve documents</a></li> -->
  			   </ul>
 		   <%} %>
 		  </li>

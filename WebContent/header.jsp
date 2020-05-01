@@ -29,7 +29,7 @@
 				</div>
             <%if(!uid.equals("admin")){ %>
 				<div id="templatemo_search_box">
-					<jsp:include page="search.jsp"></jsp:include>
+					<%-- <jsp:include page="search.jsp"></jsp:include> --%>
 				</div>
 			<%} %>
 		</div>

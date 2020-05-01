@@ -27,19 +27,19 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 Statement st=con.createStatement();
 Statement st2=con.createStatement();
 String uid=(String)session.getAttribute("userid");
+//System.out.println(uid);
 ResultSet rs3;
-ResultSet rs=st.executeQuery("select * from public.approval where approvalby='"+uid+"' and status='yetto'");
+ResultSet rs=st.executeQuery("select * from public.approval where approvalby='"+uid+"' and status='Yet to'");
 boolean z=rs.next();
 if(z){
 %>
-<form action="judge.jsp" method="post" onsubmit="return vals()"
-	name="myform">
-<table align="center">
+<form action="judge.jsp" method="post" onsubmit="return vals()" name="myform">
+<table align="center" border="1">
 	<tr>
 		<th>document name</th>
-		<th>documentid</th>
+		<th>docid</th>
 		<th>sent by</th>
-		<th></th>
+		<th>Remarks</th>
 	</tr>
 	<%while(z){ 
 			
@@ -48,13 +48,12 @@ if(z){
 		%>
 	<tr>
 
-		<td><input type="checkbox" name="selec"
-			value='<%=rs.getString("docid")%>'> <a
-			href='DownloadFile.jsp?path=C:/dms/<%=rs3.getString("filepath")%>'><%=rs3.getString("docname")%></a>
+		<td><input type="checkbox" name="selec" value='<%=rs3.getString("docid")%>'> 
+		<a href='DownloadFile.jsp?path=C:/dms/<%=rs3.getString("filepath")%>'><%=rs3.getString("docname")%></a>
 		</td>
 		<td><%=rs3.getString("docid")%></td>
 		<td><%=rs.getString("userid") %></td>
-
+        <td><input type="text" id="remarks" name="remarks"></td>
 	</tr>
 	<%	
 		z=rs.next();}

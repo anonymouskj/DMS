@@ -17,10 +17,12 @@
 Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS","postgres","postgress");
 	Statement st=con.createStatement();
 	String uid=(String)session.getAttribute("userid");
-	//String Doctype=(String)session.getAttribute("docType");
+	String Doctype="Circular";
 	String s[]=request.getParameterValues("mine");
 	String v[]=request.getParameterValues("share");
 	String ds=request.getParameter("s");
+	
+	//System.out.println(Doctype2);
 	if(ds.equals("delete")){
 		if(s!=null)
 		for(int i=0;i<s.length;i++)
@@ -64,7 +66,10 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
  %>	
 		
 		</select>
+		<label for="remarks">Remarks:</label>
+	    <input type="text" id="remarks" name="remarks"><br>
 			<input type="submit" value="share"></h3>
+			
 		</form>
 <%
 	if(s!=null){
@@ -85,8 +90,11 @@ else{
 %>
 		<form action="approval.jsp">
 	<h3 align="center">Forward for Approval:<select name="approvalby">
-	<% 
+	   
+		 <option value="admin">Administration</option>
+	<%-- <%  
 	
+	   
 	String userid="", firstName, lastName, name="";
   
   Statement st1=con.createStatement();
@@ -97,7 +105,8 @@ else{
 	 firstName=rs1.getString(2); if(firstName==null) {firstName="";}
 	 lastName=rs1.getString(3); if(lastName==null) {lastName="";}
 	 name=firstName+" "+lastName;
-	 if(!userid.equals(uid))
+	
+	  if(!userid.equals(uid))
 	 { 
 		
 	 %>
@@ -106,9 +115,13 @@ else{
 
 	 }
     }
- %>	
+    
+	   
+ %>	 --%>
 	
-	</select>
+	</select><br>
+	 <label for="remarks">Remarks:</label>
+	 <input type="text" id="remarks" name="remarks"><br>
 	<input type="submit" name="send for approval"></h3>
 	</form>
 <%if(s!=null){
