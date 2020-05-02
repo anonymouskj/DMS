@@ -11,7 +11,7 @@
 
 table th,td {
   border: 1px solid black; 
- background-color:#1f5c7b;	
+/*  background-color:#1f5c7b;	 */
   color: black;
   font-size:15px;
 }
@@ -31,7 +31,7 @@ body {font-family: Arial;}
   border: none;
   outline: none;
   cursor: pointer;
-  padding: 14px;
+  padding: 12px;
   transition: 0.3s;
   font-size: 17px;
 }
@@ -142,7 +142,7 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 			}
 			%>
 			<tr>
-				<td colspan="8">
+				<td colspan="10">
 					<input type="submit" value="delete" name="s" >
 				    &nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="share" name="s">
 					&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="approval" name="s">
@@ -165,8 +165,8 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 		if(z3){ %>
 		<!-- <h2>Your Documents</h2> -->
 		<form  action="removedoc.jsp" onsubmit="return valids1()" name="form2">
-		<table  id="example" class="display" style="width:100%">
-			<thead>
+		<table  id="lett" class="display" style="width:100%">
+			<thead>	
 			<tr>
 				<th>Document Name</th>
 				<th>Author</th>
@@ -187,7 +187,7 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 				ResultSet rs4=st2.executeQuery("select status,sharedto from public.documentshared where docid='"+rs3.getString("docid")+"'");
 		
 				%>
-			
+			<tbody>
 			<tr>
 				<td><input type="checkbox" name="mine" value="<%=rs3.getString("docid")%>">
 			<a href="DownloadFile.jsp?path=C:/dms/<%=rs3.getString("filepath")%>"><%=rs3.getString("docname")%></a></td> 
@@ -208,7 +208,7 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 						else out.print("none");
 					%> 
 				</td>
-			  <td><button align="center" value="<%=rs3.getString("docid")%>">View</button></td>
+			  <td align="center"><button  value="<%=rs3.getString("docid")%>">View</button></td>
 			</tr>
 			<% 
 			 
@@ -216,11 +216,13 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 			}
 			%>
 			<tr>
-					<td colspan="8"><input type="submit" value="delete" name="s" >
+					<td colspan="10"><input type="submit" value="delete" name="s" >
 					 &nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="share" name="s">
-					<!-- &nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="Approval" name="s"> --></td>
+					<!-- &nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="Approval" name="s"> -->
 					
-				</tr>	
+					</td>
+		  </tr>
+		 </tbody> 	
 					
 	<%        
 			}%>
@@ -238,7 +240,8 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 		if(z5){ %>
 		<!-- <h2>Your Documents</h2> -->
 		<form  action="removedoc.jsp" onsubmit="return valids1()" name="form2">
-		<table  align="center" border="1">
+		<table  id="learn" class="display" style="width:100%">
+		<thead>
 			<tr>
 				<th>Document Name</th>
 				<th>Author</th>
@@ -250,6 +253,7 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 				<th>Status</th>
 			    <th>View History</th>
 			</tr>
+		</thead>	
 			<%	
 			 
 			//System.out.println(Doc);
@@ -258,6 +262,7 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 				ResultSet rs7=st2.executeQuery("select status,approvalby from public.approval where docid='"+rs5.getString("docid")+"'");
 		
 				%>
+		<tbody>
 			<tr>
 				<td><input type="checkbox" name="mine" value="<%=rs5.getString("docid")%>">
 			<a href="DownloadFile.jsp?path=C:/dms/<%=rs5.getString("filepath")%>"><%=rs5.getString("docname")%></a></td> 
@@ -278,7 +283,7 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 						else out.print("none");
 					%> 
 				</td>
-			  <td><button align="center" value="<%=rs5.getString("docid")%>">View</button></td>
+			  <td align="center" ><button  value="<%=rs5.getString("docid")%>">View</button></td>
 			</tr>
 			<% 
 			 
@@ -286,11 +291,11 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 			}
 			%>
 			<tr>
-					<td colspan="8"><input type="submit" value="delete" name="s" >
+					<td colspan="10"><input type="submit" value="delete" name="s" >
 					<!-- &nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="Forward" name="s"> -->
 					</td>
-					
-				</tr>	    
+				</tr>
+			</tbody>		    
 	<%        
 			}%>
 		</table>
@@ -302,6 +307,12 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 	 
 	$(document).ready(function() {
 	    $('#example').DataTable();
+	} );
+	$(document).ready(function() {
+	    $('#lett').DataTable();
+	} );
+	$(document).ready(function() {
+	    $('#learn').DataTable();
 	} );
 	
 	var btn;

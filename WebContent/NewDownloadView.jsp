@@ -3,7 +3,17 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 <style>
+table th,td {
+  border: 1px solid black; 
+/*  background-color:#1f5c7b;	 */
+  color: black;
+  font-size:15px;
+}
+
 body {font-family: Arial;}
 
 /* Style the tab */
@@ -70,14 +80,16 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 	boolean z1=rs1.next(),z2;
 	%>
 	<div id="LearningFile" class="tabcontent">
-	<table border="1" align="center">
-	<tr><td>
+	
+
 		 <form  action="removedoc.jsp" onsubmit="return valids2()" name="form3">
+		 
+		 <table  id="example" class="display" style="width:100%">
 			<%	ResultSet rs2=st1.executeQuery("select * from public.documentshared where sharedby!='"+uid+"' and sharedto='All' and status!='deleted' and doctype = 'LearningFile'");
 				boolean z3=rs2.next();
 				
 				if(z3){
-			%>	
+			%><thead>
 				<tr>
 					<th>Document Name</th>
 					<th>Author</th>
@@ -90,6 +102,7 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 					<!-- <th>Status</th> -->
 					<!-- <th>DocType</th> -->
 				</tr>
+			</thead>	
 				<%    int count=0;
 				     //String id=rs2.getString("sharedby");
 				     //int ans=id.compareTo(uid);
@@ -103,6 +116,7 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 						  //System.out.println(Doc);
 						 // if(Doc.equals("Circular")){
 				%>
+			<tbody>	
 				<tr>
 					<td><input type="checkbox" name="share" value="<%=rs2.getString("docid")%>">
 					<a href="DownloadFile.jsp?path=C:/dms/<%=rs5.getString("filepath")%>"><%=rs5.getString("docname")%></a></td>
@@ -129,20 +143,20 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 				<% z3=rs2.next();}
 				if(count!=0){%> 
 				<tr>
-					<td colspan="8"><input type="submit" value="delete" name="s" >
+					<td colspan="8"><input type="submit" value="delete" name="s" ></td>
 					<!-- &nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="Share" name="s"> -->
 					<!-- &nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="Approval" name="s"></td> -->
 					
 				</tr>
-				
+				</tbody>
 				<%
 				}	
 				}%>
-			
+				</table> 
 			</form>
 	
 	
-	</table> 
+
   </div> 
   
   <div id="Circular" class="tabcontent">
@@ -307,6 +321,16 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
   
   
 	<script type="text/javascript">
+	 
+	$(document).ready(function() {
+	    $('#example').DataTable();
+	} );
+	$(document).ready(function() {
+	    $('#lett').DataTable();
+	} );
+	$(document).ready(function() {
+	    $('#learn').DataTable();
+	} );
 	
 	function openCity(evt, cityName) {
 		  var i, tabcontent, tablinks;
