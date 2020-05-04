@@ -84,7 +84,7 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 
 		 <form  action="removedoc.jsp" onsubmit="return valids2()" name="form3">
 		 
-		 <table  id="example" class="display" style="width:100%">
+		 <table  id="learn" class="display" style="width:100%">
 			<%	ResultSet rs2=st1.executeQuery("select * from public.documentshared where sharedby!='"+uid+"' and sharedto='All' and status!='deleted' and doctype = 'LearningFile'");
 				boolean z3=rs2.next();
 				
@@ -160,14 +160,15 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
   </div> 
   
   <div id="Circular" class="tabcontent">
-	<table border="1" align="center">
-	<tr><td>
+	
+	
 		 <form  action="removedoc.jsp" onsubmit="return valids2()" name="form3">
+			  <table  id="example" class="display" style="width:100%">
 			<%	ResultSet rs20=st1.executeQuery("select * from public.documentshared where sharedby!='"+uid+"' and sharedto='All' and status!='deleted' and doctype = 'Circular'");
 				boolean z30=rs20.next();
 				
 				if(z30){
-			%>	
+			%>	<thead>
 				<tr>
 					<th>Document Name</th>
 					<th>Author</th>
@@ -180,6 +181,7 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 					<!--<th>Status</th> -->
 					<!-- <th>DocType</th> -->
 				</tr>
+			</thead>	
 				<%   
 				int count=0;
 				     /* String id=rs20.getString("sharedby");
@@ -195,7 +197,8 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 						  //System.out.println(Doc);
 						 // if(Doc.equals("Circular")){
 				%>
-				<tr>
+				<tbody>
+				  <tr>
 					<td><input type="checkbox" name="share" value="<%=rs20.getString("docid")%>">
 					<a href="DownloadFile.jsp?path=C:/dms/<%=rs5.getString("filepath")%>"><%=rs5.getString("docname")%></a></td>
 					<td><%=rs5.getString("author")%></td>
@@ -222,31 +225,32 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 				
 				if(count!=0){%> 
 				<tr>
-					<td colspan="8"><input type="submit" value="delete" name="s" >
+					<td colspan="8"><input type="submit" value="delete" name="s" ></td>
 					<!--  &nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="Share" name="s"> -->
 					<!-- &nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="Approval" name="s"></td> -->
 					
 				</tr>
-				
+				</tbody>
+			
 				<%
 				}
 				}%>
-			
+			</table> 	
 			</form>
 	
 	
-	</table> 
+	
   </div> 
   
   <div id="Letter" class="tabcontent">
-	<table border="1" align="center">
-	<tr><td>
+	
 		 <form  action="removedoc.jsp" onsubmit="return valids2()" name="form3">
+		  <table  id="lett" class="display" style="width:100%">
 			<%	ResultSet rs21=st1.executeQuery("select * from public.documentshared where sharedto='"+uid+"' and status!='deleted' and doctype = 'Letter'");
 				boolean z31=rs21.next();
 				
 				if(z31){
-			%>	
+			%>	<thead>
 				<tr>
 					<th>Document Name</th>
 					<th>Author</th>
@@ -259,6 +263,7 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 					<!--<th>Status</th> -->
 					<!-- <th>DocType</th> -->
 				</tr>
+				</thead>
 				<%  int count=0;
 				
 				    /*  String id=rs21.getString("sharedby");
@@ -275,6 +280,7 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 						  //System.out.println(Doc);
 						 // if(Doc.equals("Circular")){
 				%>
+			<tbody>
 				<tr>
 					<td><input type="checkbox" name="share" value="<%=rs21.getString("docid")%>">
 					<a href="DownloadFile.jsp?path=C:/dms/<%=rs5.getString("filepath")%>"><%=rs5.getString("docname")%></a></td>
@@ -303,19 +309,19 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 						 if(count!=0){%> 
 				<tr>
 					<td colspan="8"><input type="submit" value="delete" name="s" >
-				     &nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="Share" name="s">
+				     &nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="Share" name="s"></td>
 					<!-- &nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="Approval" name="s"></td> -->
 					
 				</tr>
-				
+				</tbody>
 				<%
 						 }
 				}%>
-			
+			</table>
 			</form>
 	
 	
-	</table> 
+	 
   </div> 
   
   

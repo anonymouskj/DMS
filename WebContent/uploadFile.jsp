@@ -57,7 +57,8 @@
 		int docid=Integer.parseInt(session.getAttribute("docid").toString());
 		String version=(String)session.getAttribute("ver");
 		String des=(String)session.getAttribute("des");
-		String Doctype=(String)session.getAttribute("Doctype");
+	    String Doctype=(String)session.getAttribute("Doctype");
+	    System.out.println(author+docname+docid+Doctype+des+version);
 		saveFile=author+docname+version+saveFile;
 		//Class.forName("com.mysql.jdbc.Driver");
 		//Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/"+"dms","root","root");
@@ -65,7 +66,7 @@
 Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS","postgres","postgress");
 		Statement st1=con.createStatement();
 		Statement st2=con.createStatement();
-		Statement st3=con.createStatement();
+		/* Statement st3=con.createStatement(); */
 		ResultSet rs=st1.executeQuery("select docname,version from public.documentload where author='"+author+"'");
 		String s=docname+version;
 		String flag="true";
@@ -139,7 +140,7 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 				st1.executeUpdate("insert into public.documentload values('"+docname+"','"+des+"','"+docid+"','"+version+"','"+author+"','"+formDataLength+"','"+f.format(s1) +"','created','"+saveFile+"','"+Doctype+"')");	
 				if(Doctype.equalsIgnoreCase("LearningFile")){
 				//st3.executeUpdate("insert into public.documentshared values('"+docid+"','All','"+author+"','"+version+"','"+author+"','"+formDataLength+"','"+f.format(s1) +"','created','"+saveFile+"','"+Doctype+"')");	
-				st3.executeUpdate("insert into public.documentshared values('"+docid+"','All','"+author+"','"+ f.format(s1)+"','shared','"+Doctype+"')");	
+				st1.executeUpdate("insert into public.documentshared values('"+docid+"','All','"+author+"','"+ f.format(s1)+"','shared','"+Doctype+"')");	
 				}
 				ResultSet rs1=st2.executeQuery("select docid from public.documentload where docname='"+docname+"' and version='"+version+"' and author='"+author+"'");
 				rs1.next();

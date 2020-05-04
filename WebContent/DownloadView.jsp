@@ -154,7 +154,7 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 			<%
 			}%>
 		</table>
-	
+	</form>
 </div> 
   <div id="Letter" class="tabcontent">
 	  
