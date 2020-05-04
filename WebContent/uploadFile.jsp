@@ -137,15 +137,25 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 				fileOut.write(dataBytes, startPos, (endPos - startPos));
 				fileOut.flush();
 				fileOut.close();
-				st1.executeUpdate("insert into public.documentload values('"+docname+"','"+des+"','"+docid+"','"+version+"','"+author+"','"+formDataLength+"','"+f.format(s1) +"','created','"+saveFile+"','"+Doctype+"')");	
+				
+					System.out.println("doc "+Doctype);
 				if(Doctype.equalsIgnoreCase("LearningFile")){
-				//st3.executeUpdate("insert into public.documentshared values('"+docid+"','All','"+author+"','"+version+"','"+author+"','"+formDataLength+"','"+f.format(s1) +"','created','"+saveFile+"','"+Doctype+"')");	
-				st1.executeUpdate("insert into public.documentshared values('"+docid+"','All','"+author+"','"+ f.format(s1)+"','shared','"+Doctype+"')");	
+					st1.executeUpdate("insert into public.documentshared values('"+docid+"','All','"+author+"','"+ f.format(s1)+"','shared','"+Doctype+"')");	
+				//st1.executeUpdate("insert into public.documentshared values('"+docid+"','All','"+author+"','"+ f.format(s1)+"','shared','"+Doctype+"')");	
+					ResultSet rs1=st2.executeQuery("select max(docid) as docid from public.documentshared where doctype='"+Doctype+"'");
+					rs1.next();
+					String id=rs1.getString("docid");
+					st1.executeUpdate("insert into public.docids values('"+id+"')");
 				}
-				ResultSet rs1=st2.executeQuery("select docid from public.documentload where docname='"+docname+"' and version='"+version+"' and author='"+author+"'");
-				rs1.next();
-				String id=rs1.getString("docid");
-				st1.executeUpdate("insert into public.docids values('"+id+"')");
+				else
+				{
+					st1.executeUpdate("insert into public.documentload values('"+docname+"','"+des+"','"+docid+"','"+version+"','"+author+"','"+formDataLength+"','"+f.format(s1) +"','created','"+saveFile+"','"+Doctype+"')");
+					ResultSet rs1=st2.executeQuery("select docid from public.documentload where docname='"+docname+"' and version='"+version+"' and author='"+author+"'");
+					rs1.next();
+					String id=rs1.getString("docid");
+					st1.executeUpdate("insert into public.docids values('"+id+"')");
+				}
+				
 %>
 		<Br><table border="0" align="center"><tr><td><b>You have successfully upload the document by the name of:</b>
 		<% out.println(docname); %></td></tr></table> 		
