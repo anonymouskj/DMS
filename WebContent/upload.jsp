@@ -24,10 +24,10 @@
 	function sendRequest(){
 		var request=check();
 		request.onreadystatechange=function(){handleResponse(request)};
-		dns=document.forms[1].dn.value;
-		vers=document.forms[1].ver.value;
-		des=document.forms[1].des.value;
-		Doctype=document.forms[1].Doctype.value;
+		dns=document.form1.dn.value;
+		vers=document.form1.ver.value;
+		des=document.form1.des.value;
+		Doctype=document.form1.Doctype.value;
 		request.open("get","sess.jsp?dn="+dns+"&ver="+vers+"&des="+des+"&Doctype="+Doctype,true);
 		request.send(null);
 	}

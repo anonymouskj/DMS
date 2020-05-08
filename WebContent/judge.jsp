@@ -28,6 +28,15 @@ String s[]=request.getParameterValues("selec");
 String app=request.getParameter("approval");
 String  remarks=request.getParameter("remarks");
 System.out.println("heloi");
+
+ResultSet rs2=st2.executeQuery("select noting_id from public.noting_ids");
+int su=1; 
+boolean z;
+if(z=rs2.next()) 
+	while(z){
+		su=Integer.parseInt(rs2.getString("noting_id"))+1;
+		z=rs2.next();
+	}
 if(app.equals("approve")){
 	for(int i=0;i<s.length;i++){
 		ResultSet rs=st1.executeQuery("select * from public.documentload where docid='"+s[i]+"'");
@@ -36,13 +45,17 @@ if(app.equals("approve")){
 		String author=rs.getString(5);      
 		
 		st.executeUpdate("update public.approval set status='approved' , remarks='"+remarks+"' where approvalby='"+uid+"' and docid='"+s[i]+"'");
-		                                
 		st2.executeUpdate("insert into public.documentshared values('"+s[i]+"','All','"+author+"','"+ f.format(s1)+"','shared','"+Doctype+"','"+remarks+"')");
+		st2.executeUpdate("insert into public.noting_trans values('"+su+"','"+s[i]+"','"+remarks+"','"+uid+"','"+f.format(s1)+"')");
+		 st2.executeUpdate("insert into public.noting_ids values('"+su+"')");
+		
 	}	
 }
 else{
 	for(int i=0;i<s.length;i++){
-		st.executeUpdate("update public.approval set status='discarded' and remarks='"+remarks+"' where approvalby='"+uid+"' and docid='"+s[i]+"' ");
+		st.executeUpdate("update public.approval set status='discarded' ,remarks='"+remarks+"' where approvalby='"+uid+"' and docid='"+s[i]+"' ");
+		st2.executeUpdate("insert into public.noting_trans values('"+su+"','"+s[i]+"','"+remarks+"','"+uid+"','"+f.format(s1)+"')");
+		 st2.executeUpdate("insert into public.noting_ids values('"+su+"')");
 	}
 }
 %>

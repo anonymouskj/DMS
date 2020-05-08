@@ -4,9 +4,11 @@
 <%@page import="javax.servlet.http.HttpServletRequest"%>
 <%@page import="javax.servlet.http.HttpServletResponse"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%String contextpath=request.getContextPath(); %>
 <html>
 <head>
 <link href="templatemo_style.css" rel="stylesheet" type="text/css" />
+<%-- <link rel="stylesheet" href="<%=contextpath%>/css/bootstrap.min.css"> --%> 
 </head>
 <body>
 <%

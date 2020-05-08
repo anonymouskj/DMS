@@ -1,16 +1,29 @@
 <%@ page language="java"  import="java.sql.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+  <%String contextpath=request.getContextPath(); %>
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
   <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
   <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
+ 
+  <!-- <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script> -->
+ 
+<script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+  
+  
+  
+  
+ <%--  <link rel="stylesheet" href="<%=contextpath%>/css/bootstrap.min.css"> 
+  <script src="<%=contextpath%>/js/bootstrap.min.js"></script>
+  <script src="<%=contextpath%>/js/jquery.min.js"></script>--%>
+  
 <style>
 
 table th,td {
-  border: 1px solid black; 
+   border: 1px solid black; 
 /*  background-color:#1f5c7b;	 */
   color: black;
   font-size:15px;
@@ -21,7 +34,8 @@ body {font-family: Arial;}
 /* Style the tab */
 .tab {
   overflow: hidden;
- 
+
+ /*  background-color: #f1f1f1; */
 }
 
 /* Style the buttons inside the tab */
@@ -29,9 +43,10 @@ body {font-family: Arial;}
   background-color: inherit;
   float: left;
   border: none;
+  
   outline: none;
   cursor: pointer;
-  padding: 12px;
+  padding: 14px 16px;
   transition: 0.3s;
   font-size: 17px;
 }
@@ -50,21 +65,133 @@ body {font-family: Arial;}
 .tabcontent {
   display: none;
   padding: 6px 12px;
-  border: 1px solid #ccc;
-  border-top: none;
+
+
 }
+
 </style>
 </head>
 <body>
 
+
+<script type="text/javascript">
+	
+function openDialog(finYear, railway1) {
+	var fin=finYear;
+	var rly =railway1;
+	/* var title="Details for despatch Coach"; */
+/* 	 alert(rly); */
+	    $("#dialog").load("View.jsp?finYear="+fin)
+	    .dialog({
+	    	modal: true,
+	    	width: 530,
+	    	title:"HISTORY",
+	    	
+	    	buttons: {
+	            Cancel: function() {
+	              $(this).dialog("close");
+	            }
+	    }  	
+	    
+	   });
+	    
+	    }
+	    /* buttons: {
+	            Cancel: function() {
+	              $(this).dialog("close");
+	            }
+	    }  
+	    });*/
+	    
+
+$(document).ready(function() {
+    $('#example').DataTable();
+} );
+
+$(document).ready(function() {
+	    $('#lett').DataTable();
+	} );
+	$(document).ready(function() {
+	    $('#learn').DataTable();
+	} );
+	
+	var btn;
+	function openCity(evt, cityName) {
+		  var i, tabcontent, tablinks;
+		   btn=evt.target.id;
+		   //alert(btn);
+		  tabcontent = document.getElementsByClassName("tabcontent");
+		  for (i = 0; i < tabcontent.length; i++) {
+		    tabcontent[i].style.display = "none";
+		  }
+		  tablinks = document.getElementsByClassName("tablinks");
+		  for (i = 0; i < tablinks.length; i++) {
+		    tablinks[i].className = tablinks[i].className.replace(" active", "");
+		  }
+		  document.getElementById(cityName).style.display = "block";
+		  evt.currentTarget.className += " active";
+		}
+	
+       function valids1(){
+			var len=document.form2.mine.length;
+			if(len>0)
+				for(i=0;i<len;i++){
+					if(document.form2.mine[i].checked){
+						//sendRequest();	
+						return true;					}
+				}
+			else
+				if(document.form2.mine.checked){
+					//sendRequest();
+					return true;
+				}
+			return false;
+		}
+		function valids2(){
+			var len=document.form3.share.length;
+			if(len>0)
+				for(i=0;i<len;i++){
+					if(document.form3.share[i].checked){
+						//sendRequest();	
+						return true;
+					}
+				}
+			else
+				if(document.form3.share.checked){
+					//sendRequest();
+					return true;
+				}
+			return false;
+		}
+	
+		
+		
+		
+		
+		
+		
+		
+	</script>
+
+
+
+
+
+
+
  <jsp:include page="header.jsp"></jsp:include>
+ 
+ <span id="dialog" class="dialogclass" style="z-index:9999;"></span>
+ 
 <div class="tab">
 
 	<table align="center">
+	<tr>
 	<td><button class="tablinks" id="1" onclick="openCity(event, 'Circular')">Circular</button></td>
    	<td><button class="tablinks" id="2" onclick="openCity(event, 'Letter')">Letter</button></td>
    	<td><button class="tablinks" id="3" onclick="openCity(event, 'LearningFile')">LearningFile</button></td>
-	</table>
+  </tr>
+</table>
  </div> 
   
 
@@ -90,7 +217,7 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 		if(z1){ %>
 		<!-- <h2>Your Documents</h2> -->
 		<form  action="removedoc.jsp" onsubmit="return valids1()" name="form2">
-		<table  id="example" class="display" style="width:100%">
+		<table  id="example" class="table table-striped table-nowrap" style="width:100%">
 			<thead>
 			<tr>
 				<th>Document Name</th>
@@ -114,6 +241,7 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 				%>
 			<tbody>	
 			<tr>
+			    
 				<td><input type="checkbox" name="mine" value="<%=rs1.getString("docid")%>">
 			<a href="DownloadFile.jsp?path=C:/dms/<%=rs1.getString("filepath")%>"><%=rs1.getString("docname")%></a></td> 
 				
@@ -133,7 +261,15 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 						else out.print("none");
 					%> 
 				</td>
-			  <td align="center"><button value="<%=rs1.getString("docid")%>">View</button></td>
+			  <td align="center"><%-- <button value="<%=rs1.getString("docid")%>"  onClick="return sendValues(this)" >View</button> --%>
+			  
+			   <input type="button" value="View" onclick="openDialog('<%=rs1.getString("docid")%>','<%=rs1.getString("version")%>');" />
+			  <%--  <button type="button" id="<%=rs1.getString("docid")%>" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modal1">View</button> --%>
+			  </td>
+			  
+			
+  
+  
 			</tr>
 			
 			<% 
@@ -155,7 +291,40 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 			}%>
 		</table>
 	</form>
-</div> 
+</div>
+
+  <!-- <!-- modal1
+			  
+			  <div class="modal fade" id="modal1" role="dialog">
+    <div class="modal-dialog">
+    
+      Modal content
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modal Header</h4>
+        </div>
+        <div class="modal-body">
+          <p>Some text in the modal.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+ -->
+
+
+
+
+
+
+
+
+ 
   <div id="Letter" class="tabcontent">
 	  
 	 
@@ -208,7 +377,8 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 						else out.print("none");
 					%> 
 				</td>
-			  <td align="center"><button  value="<%=rs3.getString("docid")%>">View</button></td>
+			  <td align="center"><%-- <input type="submit" value="<%=rs3.getString("docid")%>" "> --%>
+			  <input type="button" value="View" onclick="openDialog('<%=rs3.getString("docid")%>','<%=rs3.getString("version")%>');" /></td>
 			</tr>
 			<% 
 			 
@@ -283,7 +453,8 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 						else out.print("none");
 					%> 
 				</td>
-			  <td align="center" ><button  value="<%=rs5.getString("docid")%>">View</button></td>
+			  <td align="center" ><%-- <button  value="<%=rs5.getString("docid")%>">View</button> --%>
+			  <input type="button" value="View" onclick="openDialog('<%=rs5.getString("docid")%>','<%=rs5.getString("version")%>');" /></td>
 			</tr>
 			<% 
 			 
@@ -303,66 +474,6 @@ Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/DMS
 		</form>
   </div> 
   
-	<script type="text/javascript">
-	 
-	$(document).ready(function() {
-	    $('#example').DataTable();
-	} );
-	$(document).ready(function() {
-	    $('#lett').DataTable();
-	} );
-	$(document).ready(function() {
-	    $('#learn').DataTable();
-	} );
 	
-	var btn;
-	function openCity(evt, cityName) {
-		  var i, tabcontent, tablinks;
-		   btn=evt.target.id;
-		   //alert(btn);
-		  tabcontent = document.getElementsByClassName("tabcontent");
-		  for (i = 0; i < tabcontent.length; i++) {
-		    tabcontent[i].style.display = "none";
-		  }
-		  tablinks = document.getElementsByClassName("tablinks");
-		  for (i = 0; i < tablinks.length; i++) {
-		    tablinks[i].className = tablinks[i].className.replace(" active", "");
-		  }
-		  document.getElementById(cityName).style.display = "block";
-		  evt.currentTarget.className += " active";
-		}
-	
-       function valids1(){
-			var len=document.form2.mine.length;
-			if(len>0)
-				for(i=0;i<len;i++){
-					if(document.form2.mine[i].checked){
-						//sendRequest();	
-						return true;					}
-				}
-			else
-				if(document.form2.mine.checked){
-					//sendRequest();
-					return true;
-				}
-			return false;
-		}
-		function valids2(){
-			var len=document.form3.share.length;
-			if(len>0)
-				for(i=0;i<len;i++){
-					if(document.form3.share[i].checked){
-						//sendRequest();	
-						return true;
-					}
-				}
-			else
-				if(document.form3.share.checked){
-					//sendRequest();
-					return true;
-				}
-			return false;
-		}
-	</script>
 	</body>
 </html>
